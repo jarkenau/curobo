@@ -246,7 +246,7 @@ RUN cd /pkgs/glog && \
 RUN cd /pkgs && git clone https://github.com/nvlabs/nvblox_torch.git && \
     cd /pkgs/nvblox_torch && \
     sh install_isaac_sim.sh $($omni_python -c 'import torch.utils; print(torch.utils.cmake_prefix_path)') && \
-    $omni_python -m pip install -e .
+    pip install -e .
 
 # install realsense for nvblox demos:
 RUN $omni_python -m pip install pyrealsense2 opencv-python transforms3d
