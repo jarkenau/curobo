@@ -194,7 +194,7 @@ RUN cd /pkgs && wget https://cmake.org/files/v3.27/cmake-3.27.1.tar.gz && \
     tar -xvzf cmake-3.27.1.tar.gz && \
     apt update &&  apt install -y build-essential checkinstall zlib1g-dev libssl-dev && \
     cd cmake-3.27.1 && ./bootstrap && \
-    make -j8 && \
+    make -j$(nproc) && \
     make install &&  rm -rf /var/lib/apt/lists/*
 
 
@@ -215,7 +215,7 @@ RUN cd /pkgs && git clone https://github.com/google/glog.git -b v0.6.0 && \
     cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -DCMAKE_INSTALL_PREFIX=/pkgs/glog/install/ \
     -DWITH_GFLAGS=OFF -DWITH_GTEST=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=${USE_CX11_ABI} \
-    && make -j8 && make install
+    && make -j$(nproc) && make install
 
 
 RUN cd /pkgs && git clone https://github.com/gflags/gflags.git -b v2.2.2 && \
@@ -224,7 +224,7 @@ RUN cd /pkgs && git clone https://github.com/gflags/gflags.git -b v2.2.2 && \
     cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -DCMAKE_INSTALL_PREFIX=/pkgs/gflags/install/ \
     -DGFLAGS_BUILD_STATIC_LIBS=ON -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=${USE_CX11_ABI} \
-    && make -j8 && make install
+    && make -j$(nproc) && make install
 
 RUN cd /pkgs &&  git clone https://github.com/valtsblukis/nvblox.git && cd /pkgs/nvblox/nvblox && \
     mkdir build && cd build && \
@@ -233,7 +233,7 @@ RUN cd /pkgs &&  git clone https://github.com/valtsblukis/nvblox.git && cd /pkgs
     -DSQLITE3_BASE_PATH="/pkgs/sqlite/install/" -DGLOG_BASE_PATH="/pkgs/glog/install/" \
     -DGFLAGS_BASE_PATH="/pkgs/gflags/install/" -DCMAKE_CUDA_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=${USE_CX11_ABI} \
     -DBUILD_TESTING=OFF && \
-    make -j32 && \
+    make -j$(nproc) && \
     make install
 
 # we also need libglog for pytorch:
@@ -241,7 +241,7 @@ RUN cd /pkgs/glog && \
     mkdir build_isaac && cd build_isaac && \
     cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -DWITH_GFLAGS=OFF -DWITH_GTEST=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_CXX_FLAGS=-D_GLIBCXX_USE_CXX11_ABI=${USE_CX11_ABI} \
-    && make -j8 && make install
+    && make -j$(nproc) && make install
 
 RUN cd /pkgs && git clone https://github.com/nvlabs/nvblox_torch.git && \
     cd /pkgs/nvblox_torch && \
